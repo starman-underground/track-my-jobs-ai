@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { UserProvider } from "./contexts/UserContext";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -48,7 +49,9 @@ export default function App() {
   
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
-      <Outlet />
+      <UserProvider>
+        <Outlet />
+      </UserProvider>
     </GoogleOAuthProvider>
   );
 }

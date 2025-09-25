@@ -1,6 +1,8 @@
 import type { LoaderFunctionArgs } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router";
+import { useUser } from "../contexts/UserContext";
 
 
 // Loader function required by React Router v7
@@ -14,7 +16,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 // Default export - simplified React component with discreet styling
 export default function Home() {
-  const [user, setUser] = useState<{ name: string; email: string; picture: string } | null>(null);
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+
+  // Redirect to dashboard if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleLoginSuccess = (credentialResponse: any) => {
     // Decode the JWT token to get user information
@@ -29,11 +39,13 @@ export default function Home() {
             .join('')
         );
         const userInfo = JSON.parse(jsonPayload);
-        setUser({
+        const newUser = {
           name: userInfo.name,
           email: userInfo.email,
           picture: userInfo.picture,
-        });
+        };
+        setUser(newUser);
+        navigate('/dashboard');
       } catch (error) {
         console.error('Error decoding JWT:', error);
       }
@@ -46,6 +58,7 @@ export default function Home() {
 
   const handleLogout = () => {
     googleLogout();
+    localStorage.removeItem('google_access_token');
     setUser(null);
   };
 
@@ -54,20 +67,26 @@ export default function Home() {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
+        // Store the access token for later use
+        localStorage.setItem('google_access_token', tokenResponse.access_token);
+        
         // Fetch user info using the access token
         const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${tokenResponse.access_token}`);
         const userInfo = await response.json();
         
-        setUser({
+        const newUser = {
           name: userInfo.name,
           email: userInfo.email,
           picture: userInfo.picture,
-        });
+        };
+        setUser(newUser);
+        navigate('/dashboard');
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
     },
     onError: handleLoginError,
+    scope: 'email profile https://www.googleapis.com/auth/gmail.readonly',
   });
 
   const CustomGoogleButton = ({ 
@@ -152,7 +171,10 @@ export default function Home() {
       {/* Get Started Button Section */}
       <div className="flex items-center justify-center min-h-[200px]">
         {user ? (
-          <button className="bg-gray-800 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-500 text-white px-6 py-3 rounded font-medium transition-colors">
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="bg-gray-800 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-500 text-white px-6 py-3 rounded font-medium transition-colors"
+          >
             View Dashboard
           </button>
         ) : (
