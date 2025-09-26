@@ -47,7 +47,7 @@ If AI can take our jobs, it can help us find one.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/track-my-jobs-ai.git
+   git clone https://github.com/starman-underground/track-my-jobs-ai.git
    cd track-my-jobs-ai
    ```
 
@@ -189,8 +189,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Coming soon
-- **Issues**: [GitHub Issues](https://github.com/your-username/track-my-jobs-ai/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/track-my-jobs-ai/discussions)
+- **Issues**: [GitHub Issues](https://github.com/starman-underground/track-my-jobs-ai/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/starman-underground/track-my-jobs-ai/discussions)
 
 ---
 
@@ -198,6 +198,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for job seekers who value their privacy**
 
-[🌟 Star this repo](https://github.com/your-username/track-my-jobs-ai) • [🐛 Report Bug](https://github.com/your-username/track-my-jobs-ai/issues) • [✨ Request Feature](https://github.com/your-username/track-my-jobs-ai/issues)
+[🌟 Star this repo](https://github.com/starman-underground/track-my-jobs-ai) • [🐛 Report Bug](https://github.com/starman-underground/track-my-jobs-ai/issues) • [✨ Request Feature](https://github.com/starman-underground/track-my-jobs-ai/issues)
 
 </div>
